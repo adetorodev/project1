@@ -1,0 +1,18 @@
+import express from "express";
+import todoRoutes from "./TodoRoute.js";
+
+const app = express();
+
+// Built-in middleware for JSON parsing
+app.use(express.json());
+
+// Mount Todo routes
+app.use("/api/todos", todoRoutes);
+
+// Global fallback 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+// Start server
+app.listen(4000, () => console.log("Todo API running on http://localhost:4000"));

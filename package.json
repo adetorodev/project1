@@ -1,0 +1,28 @@
+{
+  "name": "project1",
+  "version": "1.0.0",
+  "description": "PORA SOFTWARE ENGINEERING PROJECT 1",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon node server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adetorodev/project1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/adetorodev/project1/issues"
+  },
+  "homepage": "https://github.com/adetorodev/project1#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.11"
+  }
+}
