@@ -1,10 +1,14 @@
 import express from "express";
+import path from "path";
 import todoRoutes from "./TodoRoute.js";
 
 const app = express();
 
 // Built-in middleware for JSON parsing
 app.use(express.json());
+
+// Serve frontend files
+app.use(express.static(path.join(process.cwd(), "public")));
 
 // Mount Todo routes
 app.use("/api/todos", todoRoutes);

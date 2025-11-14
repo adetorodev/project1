@@ -1,59 +1,134 @@
+import fs from "fs";
+import path from "path";
 
+// resolve absolute path to todos.json
+const filePath = path.join(process.cwd(), "data", "todos.json");
 
-let todos = [] // In-memory array to store todos
+// Read todos from file
+const readTodos = () => {
+  const data = fs.readFileSync(filePath, "utf-8");  // read file
+  return JSON.parse(data);                          // parse JSON
+};
 
+// Save todos to file
+const saveTodos = (todos) => {
+  fs.writeFileSync(filePath, JSON.stringify(todos, null, 2)); // overwrite file
+};
+
+// === CRUD OPERATIONS ===
+
+// Get all todos
 export const getTodos = () => {
-    return todos
-}
+  return readTodos();
+};
 
-export const getTodosById = (id) => {
-    return todos.find((t) => t.id === id)
-}
+// Get single todo
+export const getTodoById = (id) => {
+  return readTodos().find((t) => t.id === id);
+};
 
+// Create new todo
 export const createTodo = (data) => {
-    const newTodo = {
-        id: Date.now().toString(),
-        title: data.title,
-        completed: false
-    }
-    todos.push(newTodo)
+  const todos = readTodos();
+  const newTodo = {
+    id: Date.now().toString(),
+    title: data.title,
+    completed: false,
+  };
+  todos.push(newTodo);
+  saveTodos(todos);
+  return newTodo;
+};
 
-    return newTodo
-}
+// Replace entire todo
+export const replaceTodo = (id, data) => {
+  const todos = readTodos();
+  const index = todos.findIndex((t) => t.id === id);
+  if (index === -1) return null;
 
-// PUT Replacement
-export const replaceTdods = (id, data) =>{
-    const index = todos.findIndex((t) => t.id === id)
+  todos[index] = { id, title: data.title, completed: data.completed };
+  saveTodos(todos);
+  return todos[index];
+};
 
-    if(index === -1) return null
+// Partial update
+export const updateTodo = (id, data) => {
+  const todos = readTodos();
+  const todo = todos.find((t) => t.id === id);
+  if (!todo) return null;
 
-    todos[index] = {
-        id: id,
-        title: data.title,
-        completed: data.completed
-    }
+  if (data.title !== undefined) todo.title = data.title;
+  if (data.completed !== undefined) todo.completed = data.completed;
 
-    return todos[index];
-}
+  saveTodos(todos);
+  return todo;
+};
 
-// Patch - Partial Update
-export const updateTodos = (id, data) => {
-    const todo = todos.find((t) => t.id === id)
+// Delete
+export const deleteTodo = (id) => {
+  const todos = readTodos();
+  const filtered = todos.filter((t) => t.id !== id);
 
-    if(!todo) return null
+  if (filtered.length === todos.length) return false; // no deletion
 
-    if( data.title !== undefined) todo.title = data.title;
-    if(data.completed !== undefined) todo.completed = data.completed;
+  saveTodos(filtered);
+  return true;
+};
 
-    return todo;
-}
+// let todos = [] // In-memory array to store todos
 
-export const deleteTodos = (id) => {
-    const index = todos.findIndex((t) => t.id === id)
+// export const getTodos = () => {
+//     return todos
+// }
 
-    if(index === -1) return null
+// export const getTodosById = (id) => {
+//     return todos.find((t) => t.id === id)
+// }
 
-    todos.splice(index, 1)
+// export const createTodo = (data) => {
+//     const newTodo = {
+//         id: Date.now().toString(),
+//         title: data.title,
+//         completed: false
+//     }
+//     todos.push(newTodo)
 
-    return true
-}
+//     return newTodo
+// }
+
+// // PUT Replacement
+// export const replaceTdods = (id, data) =>{
+//     const index = todos.findIndex((t) => t.id === id)
+
+//     if(index === -1) return null
+
+//     todos[index] = {
+//         id: id,
+//         title: data.title,
+//         completed: data.completed
+//     }
+
+//     return todos[index];
+// }
+
+// // Patch - Partial Update
+// export const updateTodos = (id, data) => {
+//     const todo = todos.find((t) => t.id === id)
+
+//     if(!todo) return null
+
+//     if( data.title !== undefined) todo.title = data.title;
+//     if(data.completed !== undefined) todo.completed = data.completed;
+
+//     return todo;
+// }
+
+// export const deleteTodos = (id) => {
+//     const index = todos.findIndex((t) => t.id === id)
+
+//     if(index === -1) return null
+
+//     todos.splice(index, 1)
+
+//     return true
+// }

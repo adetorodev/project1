@@ -7,7 +7,7 @@ export const fetchTodos = (req, res) => {
 }
 
 export const fetchTodoById = (req, res) => {
-    const todo = todoService.getTodosById(req.params.id)
+    const todo = todoService.getTodoById(req.params.id)
 
     if(!todo) return res. status(404).json({error: "Todo not found"})
 
@@ -25,7 +25,7 @@ export const addTodos = (req, res) => {
 }
 
 export const replaceTodos = (req, res) => {
-    const updatedTodo = todoService.replaceTdods(req.params.id, req.body)
+    const updatedTodo = todoService.replaceTodo(req.params.id, req.body)
 
     if(!updatedTodo) return res.status(404).json({error: "Todo not found"})
 
@@ -34,7 +34,7 @@ export const replaceTodos = (req, res) => {
 
 
 export const updateTodos = (req, res) => {
-    const updatedTodo = todoService.updateTodos(req.params.id, req.body)
+    const updatedTodo = todoService.updateTodo(req.params.id, req.body)
 
     if(!updatedTodo) return res.status(404).json({error: "Todo not found"})
 
@@ -42,7 +42,7 @@ export const updateTodos = (req, res) => {
 }
 
 export const removeTodos = (req, res) => {
-    const isDeleted = todoService.deleteTodos(req.params.id)
+    const isDeleted = todoService.deleteTodo(req.params.id)
 
     if(!isDeleted) return res.status(404).json({error: "Todo not found"})
 
