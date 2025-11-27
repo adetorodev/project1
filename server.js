@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import todoRoutes from "./TodoRoute.js";
+import connectDB from "./database.js";
 
 const app = express();
 
@@ -9,6 +10,8 @@ app.use(express.json());
 
 // Serve frontend files
 app.use(express.static(path.join(process.cwd(), "public")));
+
+connectDB();
 
 // Mount Todo routes
 app.use("/api/todos", todoRoutes);
